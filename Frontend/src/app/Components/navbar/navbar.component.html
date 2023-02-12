@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="collapseNav" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      </ul>
+      <form class="d-flex">
+        <ul *ngIf="!isUserAuthenticated" class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link"[routerLink]="['/login']" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"[routerLink]="['']" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">Register</a>
+          </li>
+        </ul>
+        <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <button class="btn btn-link" style="color: #ffffff80;" (click)="logout()">Logout</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</nav>

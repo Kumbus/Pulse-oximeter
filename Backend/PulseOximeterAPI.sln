@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PulseOximeterAPI", "PulseOximeterAPI\PulseOximeterAPI.csproj", "{F09DE76F-474C-4AE5-B9CD-F0F2D4F9D2B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{6B92F652-3258-4D59-B85C-BC5A6AE99FF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{3255D77A-1DC2-4186-925B-C32575708FCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{CFD292E1-E682-4A49-A4E0-002D6AB762C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F09DE76F-474C-4AE5-B9CD-F0F2D4F9D2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09DE76F-474C-4AE5-B9CD-F0F2D4F9D2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09DE76F-474C-4AE5-B9CD-F0F2D4F9D2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09DE76F-474C-4AE5-B9CD-F0F2D4F9D2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B92F652-3258-4D59-B85C-BC5A6AE99FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B92F652-3258-4D59-B85C-BC5A6AE99FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B92F652-3258-4D59-B85C-BC5A6AE99FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B92F652-3258-4D59-B85C-BC5A6AE99FF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3255D77A-1DC2-4186-925B-C32575708FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3255D77A-1DC2-4186-925B-C32575708FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3255D77A-1DC2-4186-925B-C32575708FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3255D77A-1DC2-4186-925B-C32575708FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD292E1-E682-4A49-A4E0-002D6AB762C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD292E1-E682-4A49-A4E0-002D6AB762C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD292E1-E682-4A49-A4E0-002D6AB762C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD292E1-E682-4A49-A4E0-002D6AB762C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9363CF37-7C41-4C64-B5EC-047730393888}
+	EndGlobalSection
+EndGlobal
