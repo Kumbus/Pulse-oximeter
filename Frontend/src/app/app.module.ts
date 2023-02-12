@@ -19,6 +19,15 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { ErrorHandlerService } from './Services/error-handler.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatTableModule } from '@angular/material/table'
+import { MatSortModule } from '@angular/material/sort'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatTooltipModule } from '@angular/material/tooltip'
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -49,7 +58,15 @@ export function tokenGetter() {
         disallowedRoutes: []
       }
     }),
-    NgbCollapseModule
+    NgbCollapseModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTooltipModule
   ],
   providers: [
     {
