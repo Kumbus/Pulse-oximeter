@@ -1,0 +1,6 @@
+dfrobot/DFRobot_BloodOxygen_S@^1.0.0
+dfrobot/DFRobot_RTU@^1.0.2
+bblanchon/ArduinoJson@^6.20.0
+adafruit/Adafruit SSD1306@^2.5.7
+arduino-libraries/ArduinoHttpClient@^0.4.0
+adafruit/Adafruit GFX Library@^1.11.3
