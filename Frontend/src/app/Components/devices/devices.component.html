@@ -1,1 +1,94 @@
-<p>devices works!</p>
+
+
+<table mat-table [dataSource]="devicesDataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="device">
+    <th mat-header-cell *matHeaderCellDef > Mac address </th>
+    <td mat-cell *matCellDef="let device"> {{device.macAddress}}
+      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === device ? null : device); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== device">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === device">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!--<ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>-->
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let device" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail"
+           [@detailExpand]="device == expandedElement ? 'expanded' : 'collapsed'">
+
+        <div class="example-element-description">
+          <table mat-table [dataSource]="dataSources[device.id]">
+
+
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let result"> {{result.date}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="averageHeartRate">
+              <th mat-header-cell *matHeaderCellDef > avg HeartRate </th>
+              <td mat-cell *matCellDef="let result"> {{result.averageHeartRate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="maximumHeartRate">
+              <th mat-header-cell *matHeaderCellDef> max HeartRate </th>
+              <td mat-cell *matCellDef="let result"> {{result.maximumHeartRate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="minimumHeartRate">
+              <th mat-header-cell *matHeaderCellDef> min HeartRate </th>
+              <td mat-cell *matCellDef="let result"> {{result.minimumHeartRate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="averageSpO2">
+              <th mat-header-cell *matHeaderCellDef> avg SpO2 </th>
+              <td mat-cell *matCellDef="let result"> {{result.averageSpO2}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="maximumSpO2">
+              <th mat-header-cell *matHeaderCellDef> max SpO2 </th>
+              <td mat-cell *matCellDef="let result"> {{result.maximumSpO2}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="minimumSpO2">
+              <th mat-header-cell *matHeaderCellDef> min SpO2 </th>
+              <td mat-cell *matCellDef="let result"> {{result.minimumSpO2}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="add">
+              <th mat-header-cell *matHeaderCellDef> Add to account </th>
+              <td mat-cell *matCellDef="let result">
+                <mat-checkbox matTooltip="Add result to your account" (change)="addToAccount(result.id)">
+
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="resultsDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: resultsDisplayedColumns;"></tr>
+
+          </table>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>

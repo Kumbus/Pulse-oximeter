@@ -1,1 +1,15 @@
-<p>charts works!</p>
+<div *ngIf="isDataAvailable"><canvas baseChart class="chart"
+        [data]="lineChartDataHeart"
+        [options]="lineChartOptionsHeart"
+        [type]="lineChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+</div>
+<div *ngIf="isDataAvailable">
+<canvas baseChart class="chart"
+        [data]="lineChartDataSpO2"
+        [options]="lineChartOptionsSpO2"
+        [type]="lineChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
+</div>

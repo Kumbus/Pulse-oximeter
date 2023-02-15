@@ -1,3 +1,10 @@
+<mat-card>
+  <button mat-raised-button [routerLink]="['/devices']" color="accent">
+    Add new results
+    <mat-icon>add_circle</mat-icon>
+  </button>
+</mat-card>
+
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>

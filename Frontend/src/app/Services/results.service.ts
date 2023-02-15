@@ -17,4 +17,14 @@ export class ResultsService {
   deviceResults = (id: string) => {
     return this.http.get(`${this.apiUrl}device/${id}`)
   }
+
+  addToAccount = (userId: string, deviceId: string) => {
+    const body = {
+      measurementId: deviceId,
+      userId: userId
+    }
+    return this.http.put(`${this.apiUrl}`, body)
+  }
+
+
 }

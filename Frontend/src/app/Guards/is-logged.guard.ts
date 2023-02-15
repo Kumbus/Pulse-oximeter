@@ -14,7 +14,7 @@ export class IsLoggedGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/authentication/login'], { queryParams: { returnUrl: state.url }});
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
 
     return false;
   }

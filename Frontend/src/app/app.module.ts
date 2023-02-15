@@ -26,7 +26,11 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
+import { NgChartsModule, NgChartsConfiguration } from 'ng2-charts'
+
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -66,13 +70,19 @@ export function tokenGetter() {
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgChartsModule,
+    MatIconModule,
+    MatCardModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerService,
       multi: true
+    },
+    {
+      provide: NgChartsConfiguration, useValue: { generateColors: false }
     }
   ],
   bootstrap: [AppComponent]
