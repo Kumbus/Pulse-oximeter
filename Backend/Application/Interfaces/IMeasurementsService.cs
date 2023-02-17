@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.MeasurementDtos;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Application.Interfaces
 
         public Task ReadMeasurement(ReadMeasurementDto readMeasurementDto);
 
-        public Task<List<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(Guid userId);
+        public Task<IPagedList<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(UserResultsParameters parameters);
+        public Task<List<GetUserMeasurementsResponseDto>> GetAllMeasurementsByUser(Guid userId);
     }
 }

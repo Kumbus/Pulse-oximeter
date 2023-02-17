@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,14 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task<List<Measurement>> GetMeasurementsByUser(Guid userId)
+        public async Task<List<Measurement>> GetAllMeasurementsByUser(Guid userId)
         {
             return await _databaseContext.Measurements.Where(m => m.UserId == userId).OrderBy(m => m.Date).ToListAsync();
+        }
+
+        public PagedList<Measurement> GetMeasurementsByUser(Guid userId, int pageNumber, int pageSize)
+        {
+            return new PagedList<Measurement>(_databaseContext.Measurements.Where(m => m.UserId == userId).OrderBy(m => m.Date), pageNumber, pageSize);
         }
 
         public async Task<List<Measurement>> GetMeasurementsByDevice(Guid deviceId)

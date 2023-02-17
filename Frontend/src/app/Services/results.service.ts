@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -12,6 +12,10 @@ export class ResultsService {
 
   userResults = (id: string) => {
     return this.http.get(`${this.apiUrl}user/${id}`)
+  }
+
+  pagedUserResults = (id: string, pageNumber: number, pageSize: number) => {
+    return this.http.get(`${this.apiUrl}user?UserId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
   }
 
   deviceResults = (id: string) => {

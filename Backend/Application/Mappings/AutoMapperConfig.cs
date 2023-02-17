@@ -5,6 +5,7 @@ using Application.Dtos.UsersDevicesDtos;
 using Application.Dtos.WifiDtos;
 using AutoMapper;
 using Domain.Entities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace Application.Mappings
                 cfg.CreateMap<Device, GetDevicesFromWifiResponseDto>();
                 cfg.CreateMap<UserDevice, AddDeviceToUserResponseDto>();
                 cfg.CreateMap<AddDeviceToUserDto, UserDevice>();
+               
 
             }).CreateMapper();
     }
