@@ -1,10 +1,6 @@
 ﻿using Application.Dtos.MeasurementDtos;
+using Domain.QueryParameters;
 using PagedList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
@@ -15,7 +11,7 @@ namespace Application.Interfaces
 
         public Task ReadMeasurement(ReadMeasurementDto readMeasurementDto);
 
-        public Task<IPagedList<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(UserResultsParameters parameters);
+        public Task<IPagedList<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(Guid userId, UserResultsParameters parameters);
         public Task<List<GetUserMeasurementsResponseDto>> GetAllMeasurementsByUser(Guid userId);
     }
 }

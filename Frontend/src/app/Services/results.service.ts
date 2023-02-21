@@ -1,4 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
+import { SafeKeyedRead } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 })
 export class ResultsService {
 
-  apiUrl = "https://localhost:7212/api/Measurements/"
+  private readonly apiUrl = "https://localhost:7212/api/Measurements/"
 
   constructor(private http: HttpClient) { }
 
@@ -14,8 +15,17 @@ export class ResultsService {
     return this.http.get(`${this.apiUrl}user/${id}`)
   }
 
-  pagedUserResults = (id: string, pageNumber: number, pageSize: number) => {
-    return this.http.get(`${this.apiUrl}user?UserId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+  /*pagedUserResults = (id: string, pageNumber: number, pageSize: number) => {
+    return this.http.get(`${this.apiUrl}user/paged/${id}?PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+  }*/
+
+  pagedUserResults = (id: string, pageNumber: number, pageSize: number, startDate?: string, endDate?: string) => {
+    if(startDate && endDate)
+      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&MaxDate=${endDate}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+    else if (startDate)
+      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+
+    return this.http.get(`${this.apiUrl}user/paged/${id}?PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
   }
 
   deviceResults = (id: string) => {

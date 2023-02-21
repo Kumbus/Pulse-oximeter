@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.MeasurementDtos;
 using Application.Dtos.WifiDtos;
 using Application.Interfaces;
+using Domain.QueryParameters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -39,10 +40,10 @@ namespace PulseOximeterAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("user")]
-        public async Task<IActionResult> GetMeasurementsByUser([FromQuery] UserResultsParameters parameters)
+        [HttpGet("user/paged/{userId}")]
+        public async Task<IActionResult> GetMeasurementsByUser(Guid userId, [FromQuery] UserResultsParameters parameters)
         {
-            var response = await _measurementsService.GetMeasurementsByUser(parameters);
+            var response = await _measurementsService.GetMeasurementsByUser(userId, parameters);
             var metadata = new
             {
                 response.TotalItemCount,

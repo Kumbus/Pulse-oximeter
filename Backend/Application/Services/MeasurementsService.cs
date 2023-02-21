@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.QueryParameters;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,9 @@ namespace Application.Services
             return _mapper.Map<AddMeasurementResponseDto>(measurement);
         }
 
-        public async Task<IPagedList<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(UserResultsParameters parameters)
+        public async Task<IPagedList<GetUserMeasurementsResponseDto>> GetMeasurementsByUser(Guid userId, UserResultsParameters parameters)
         {
-            var measurements = _measurementsRepository.GetMeasurementsByUser(parameters.UserId, parameters.PageNumber, parameters.PageSize);
+            var measurements = _measurementsRepository.GetMeasurementsByUser(userId, parameters);
             
             var pagedMeasurementsDto = measurements.AsQueryable().ProjectTo<GetUserMeasurementsResponseDto>(_mapper.ConfigurationProvider);
            

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Dtos
+﻿
+namespace Domain.QueryParameters
 {
-    public abstract class PagingDto
+    public abstract class PagingParameters
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;

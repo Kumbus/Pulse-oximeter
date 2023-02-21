@@ -4,7 +4,8 @@ table {
 
 .mat-mdc-form-field {
   font-size: 14px;
-  width: 100%;
+  width:45%;
+  margin: 10px;
 }
 
 td, th {
@@ -14,5 +15,16 @@ td, th {
 mat-card
 {
   margin: 2%;
-  width: 30%;
+  width: 20%;
 }
+
+
+.filters
+{
+  display: flex;
+  justify-content: space-evenly;
+  width: 90%;
+  margin: 1%;
+
+}
+

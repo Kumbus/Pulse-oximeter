@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Result } from 'src/app/Interfaces/result';
 import { ResultsService } from 'src/app/Services/results.service';
+import { Options } from '@angular-slider/ngx-slider';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-results',
@@ -25,6 +27,8 @@ export class ResultsComponent implements OnInit{
   pageIndex = 0;
   pageSizeOptions = [10, 25, 50];
 
+  range!: FormGroup;
+
   ngOnInit(): void {
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token!);
@@ -34,6 +38,7 @@ export class ResultsComponent implements OnInit{
       const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
       setTimeout(() => {
         this.paginator.length = paginationParameters.TotalItemCount
+
       })
 
 
@@ -42,6 +47,11 @@ export class ResultsComponent implements OnInit{
       this.dataSource.sort = this.sort;
 
     })
+
+   this.range = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
   }
 
   applyFilter(event: Event) {
@@ -54,12 +64,13 @@ export class ResultsComponent implements OnInit{
   }
 
   onPageChange = (event: PageEvent) => {
-   const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token!);
-    console.log(event)
 
-
-    this._resultsService.pagedUserResults(decodedToken.Id, event.pageIndex + 1, event.pageSize).subscribe((response: HttpResponse<any>) => {
+    const start = this.range.get('start')!.value.toISOString().slice(0,-5)
+    const end = this.range.get('end')?.value.toISOString().slice(0,-5)
+console.log(event)
+    this._resultsService.pagedUserResults(decodedToken.Id, event.pageIndex + 1, event.pageSize, start, end).subscribe((response: HttpResponse<any>) => {
       const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
       setTimeout(() => {
         this.paginator.length = paginationParameters.TotalItemCount
@@ -68,12 +79,26 @@ export class ResultsComponent implements OnInit{
       })
 
       this.dataSource.data = response.body
-
-      console.log(this.paginator.length)
-
     })
-
-
   }
 
+  applyDate = () => {
+    const start = this.range.get('start')!.value.toISOString().slice(0,-5)
+    console.log(start)
+    const end = this.range.get('end')?.value?.toISOString().slice(0,-5)
+
+    const token = localStorage.getItem("token");
+    const decodedToken = this.jwtHelper.decodeToken(token!);
+
+    this._resultsService.pagedUserResults(decodedToken.Id, 1, this.pageSize, start, end).subscribe((response: HttpResponse<any>) => {
+      const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
+      setTimeout(() => {
+        this.paginator.length = paginationParameters.TotalItemCount
+        this.pageIndex = 0;
+        this.paginator.pageIndex = 0
+      })
+
+      this.dataSource.data = response.body
+    })
+  }
 }

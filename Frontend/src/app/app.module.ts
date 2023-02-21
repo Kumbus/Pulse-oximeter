@@ -29,8 +29,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgChartsModule, NgChartsConfiguration } from 'ng2-charts'
-
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -73,7 +76,11 @@ export function tokenGetter() {
     MatTooltipModule,
     NgChartsModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatSliderModule,
+    NgxSliderModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {
@@ -83,7 +90,8 @@ export function tokenGetter() {
     },
     {
       provide: NgChartsConfiguration, useValue: { generateColors: false }
-    }
+    },
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })
