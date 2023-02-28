@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Helpers.Interfaces;
 using Domain.Interfaces;
 using Domain.QueryParameters;
 using Infrastructure.Data;
@@ -10,9 +11,12 @@ namespace Infrastructure.Repositories
     public class MeasurementsRepository : IMeasurementsRepository
     {
         private readonly DatabaseContext _databaseContext;
-        public MeasurementsRepository(DatabaseContext databaseContext) 
+        private readonly ISortHelper<Measurement> _sortHelper;
+
+        public MeasurementsRepository(DatabaseContext databaseContext, ISortHelper<Measurement> sortHelper) 
         { 
             _databaseContext = databaseContext;
+            _sortHelper = sortHelper;
         }
         public async Task AddMeasurement(Measurement measurement)
         {
@@ -27,9 +31,11 @@ namespace Infrastructure.Repositories
         }
 
         public PagedList<Measurement> GetMeasurementsByUser(Guid userId, UserResultsParameters parameters)
-        { 
-            return new PagedList<Measurement>(_databaseContext.Measurements.Where(m => m.UserId == userId && m.Date >= parameters.MinDate && m.Date <= parameters.MaxDate)
-                .OrderBy(m => m.Date), parameters.PageNumber, parameters.PageSize);
+        {
+            var measurements = _databaseContext.Measurements.Where(m => m.UserId == userId && m.Date >= parameters.MinDate && m.Date <= parameters.MaxDate);
+            var sortedMeasurements = _sortHelper.ApplySort(measurements, parameters.OrderBy);
+
+            return new PagedList<Measurement>(sortedMeasurements, parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<List<Measurement>> GetMeasurementsByDevice(Guid deviceId)

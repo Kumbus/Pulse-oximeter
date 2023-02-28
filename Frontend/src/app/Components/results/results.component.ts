@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Result } from 'src/app/Interfaces/result';
@@ -27,13 +27,18 @@ export class ResultsComponent implements OnInit{
   pageIndex = 0;
   pageSizeOptions = [10, 25, 50];
 
-  range!: FormGroup;
+  range: FormGroup = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
+
+  orderBy: string = "date"
 
   ngOnInit(): void {
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token!);
 
-    this._resultsService.pagedUserResults(decodedToken.Id, 1, 10).subscribe((response: HttpResponse<any>) => {
+    this._resultsService.pagedUserResults(decodedToken.Id, 1, 10, this.orderBy).subscribe((response: HttpResponse<any>) => {
 
       const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
       setTimeout(() => {
@@ -41,17 +46,12 @@ export class ResultsComponent implements OnInit{
 
       })
 
-
       this.dataSource.data = response.body
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
     })
 
-   this.range = new FormGroup({
-      start: new FormControl(),
-      end: new FormControl(),
-    });
   }
 
   applyFilter(event: Event) {
@@ -67,10 +67,12 @@ export class ResultsComponent implements OnInit{
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token!);
 
-    const start = this.range.get('start')!.value.toISOString().slice(0,-5)
-    const end = this.range.get('end')?.value.toISOString().slice(0,-5)
-console.log(event)
-    this._resultsService.pagedUserResults(decodedToken.Id, event.pageIndex + 1, event.pageSize, start, end).subscribe((response: HttpResponse<any>) => {
+    console.log(this.range)
+
+      const start = this.range.get('start')?.value?.toISOString().slice(0,-5)
+      const end = this.range.get('end')?.value?.toISOString().slice(0,-5)
+
+    this._resultsService.pagedUserResults(decodedToken.Id, event.pageIndex + 1, event.pageSize, this.orderBy, start, end).subscribe((response: HttpResponse<any>) => {
       const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
       setTimeout(() => {
         this.paginator.length = paginationParameters.TotalItemCount
@@ -84,13 +86,12 @@ console.log(event)
 
   applyDate = () => {
     const start = this.range.get('start')!.value.toISOString().slice(0,-5)
-    console.log(start)
     const end = this.range.get('end')?.value?.toISOString().slice(0,-5)
 
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token!);
 
-    this._resultsService.pagedUserResults(decodedToken.Id, 1, this.pageSize, start, end).subscribe((response: HttpResponse<any>) => {
+    this._resultsService.pagedUserResults(decodedToken.Id, 1, this.pageSize, this.orderBy, start, end).subscribe((response: HttpResponse<any>) => {
       const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
       setTimeout(() => {
         this.paginator.length = paginationParameters.TotalItemCount
@@ -98,6 +99,26 @@ console.log(event)
         this.paginator.pageIndex = 0
       })
 
+      this.dataSource.data = response.body
+    })
+  }
+
+  onSortChange = (event: Sort) => {
+    this.orderBy = event.active + " " + event.direction
+
+    const token = localStorage.getItem("token");
+    const decodedToken = this.jwtHelper.decodeToken(token!);
+
+    const start = this.range.get('start')?.value?.toISOString().slice(0,-5)
+    const end = this.range.get('end')?.value?.toISOString().slice(0,-5)
+
+    this._resultsService.pagedUserResults(decodedToken.Id, this.pageIndex + 1 , this.pageSize, this.orderBy, start, end).subscribe((response: HttpResponse<any>) => {
+      const paginationParameters = JSON.parse(response.headers.get('x-pagination')!)
+      setTimeout(() => {
+        this.paginator.length = paginationParameters.TotalItemCount
+        this.pageIndex = paginationParameters.PageNumber - 1;
+        this.paginator.pageIndex = paginationParameters.PageNumber - 1
+      })
       this.dataSource.data = response.body
     })
   }

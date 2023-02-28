@@ -43,6 +43,7 @@ namespace Application.Services
             var measurements = _measurementsRepository.GetMeasurementsByUser(userId, parameters);
             
             var pagedMeasurementsDto = measurements.AsQueryable().ProjectTo<GetUserMeasurementsResponseDto>(_mapper.ConfigurationProvider);
+
            
             return new StaticPagedList<GetUserMeasurementsResponseDto>(pagedMeasurementsDto, measurements.PageNumber, measurements.PageSize, measurements.TotalItemCount);
 

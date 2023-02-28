@@ -2,6 +2,8 @@ using Application.Interfaces;
 using Application.Mappings;
 using Application.Services;
 using Domain.Entities;
+using Domain.Helpers.HelpersClasses;
+using Domain.Helpers.Interfaces;
 using Domain.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -63,6 +65,7 @@ builder.Services.AddScoped<IDevicesRepository, DevicesRepository>();
 builder.Services.AddScoped<IUsersDevicesService, UsersDevicesService>();
 builder.Services.AddScoped<IUsersDevicesRepository, UsersDevicesRepository>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<ISortHelper<Measurement>, SortHelper<Measurement>>();
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());

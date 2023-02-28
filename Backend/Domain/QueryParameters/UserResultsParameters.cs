@@ -5,5 +5,10 @@ namespace Domain.QueryParameters
     {
         public DateTime MinDate { get; set; }
         public DateTime MaxDate { get; set; } = DateTime.Now;
+
+        public UserResultsParameters() 
+        {
+            OrderBy = "Date";
+        }
     }
 }

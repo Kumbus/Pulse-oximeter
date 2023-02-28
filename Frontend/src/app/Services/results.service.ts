@@ -15,17 +15,13 @@ export class ResultsService {
     return this.http.get(`${this.apiUrl}user/${id}`)
   }
 
-  /*pagedUserResults = (id: string, pageNumber: number, pageSize: number) => {
-    return this.http.get(`${this.apiUrl}user/paged/${id}?PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
-  }*/
-
-  pagedUserResults = (id: string, pageNumber: number, pageSize: number, startDate?: string, endDate?: string) => {
+  pagedUserResults = (id: string, pageNumber: number, pageSize: number, orderBy: string, startDate?: string, endDate?: string) => {
     if(startDate && endDate)
-      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&MaxDate=${endDate}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&MaxDate=${endDate}&PageNumber=${pageNumber}&PageSize=${pageSize}&OrderBy=${orderBy}`, {observe: 'response'})
     else if (startDate)
-      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+      return this.http.get(`${this.apiUrl}user/paged/${id}?MinDate=${startDate}&PageNumber=${pageNumber}&PageSize=${pageSize}&OrderBy=${orderBy}`, {observe: 'response'})
 
-    return this.http.get(`${this.apiUrl}user/paged/${id}?PageNumber=${pageNumber}&PageSize=${pageSize}`, {observe: 'response'})
+    return this.http.get(`${this.apiUrl}user/paged/${id}?PageNumber=${pageNumber}&PageSize=${pageSize}&OrderBy=${orderBy}`, {observe: 'response'})
   }
 
   deviceResults = (id: string) => {
