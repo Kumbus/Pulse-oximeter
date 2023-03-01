@@ -38,5 +38,13 @@ namespace PulseOximeterAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("googleLogin")]
+        public async Task<IActionResult> ExternalLogin(GoogleLoginDto googleLoginDto)
+        {
+            var response = await _usersService.GoogleLogin(googleLoginDto);
+
+            return Ok(response);
+        }
     }
 }

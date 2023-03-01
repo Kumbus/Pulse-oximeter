@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.Dtos.UserDtos;
+using Domain.Entities;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,11 +12,14 @@ public class TokenService
 {
     private readonly IConfiguration _configuration;
     private readonly IConfigurationSection _jwtSettings;
+    private readonly IConfigurationSection _googleSettings;
 
     public TokenService(IConfiguration configuration)
     {
         _configuration = configuration;
         _jwtSettings = _configuration.GetSection("JwtSettings");
+        _googleSettings = _configuration.GetSection("GoogleAuthSettings");
+
     }
 
     public SigningCredentials GetSigningCredentials()
@@ -49,5 +54,23 @@ public class TokenService
             signingCredentials: signingCredentials);
 
         return tokenOptions;
+    }
+
+    public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(GoogleLoginDto externalAuth)
+    {
+        try
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string>() { _googleSettings.GetSection("clientId").Value }
+            };
+
+            var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
+            return payload;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

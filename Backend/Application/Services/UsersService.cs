@@ -29,6 +29,46 @@ namespace Application.Services
             _jwtHandler = jwtHandler;
         }
 
+        public async Task<LoginResponseDto> GoogleLogin(GoogleLoginDto googleLoginDto)
+        {
+            var payload = await _jwtHandler.VerifyGoogleToken(googleLoginDto);
+            if(payload  == null)
+               throw new InvalidGoogleCredentialsException();
+
+            var info = new UserLoginInfo(googleLoginDto.Provider, payload.Subject, googleLoginDto.Provider);
+
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+            if (user == null)
+            {
+                user = await _userManager.FindByEmailAsync(payload.Email);
+                if (user == null)
+                {
+                    user = new User { Email = payload.Email, UserName = payload.Email, FirstName = payload.GivenName, LastName = payload.FamilyName };
+                    await _userManager.CreateAsync(user);
+                    //prepare and send an email for the email confirmation
+                    //await _userManager.AddToRoleAsync(user, "Viewer");
+                    await _userManager.AddLoginAsync(user, info);
+                }
+                else
+                {
+                    await _userManager.AddLoginAsync(user, info);
+                }
+            }
+
+            if (user == null)
+                throw new InvalidGoogleCredentialsException();
+            //check for the Locked out account
+
+            var signingCredentials = _jwtHandler.GetSigningCredentials();
+            var claims = _jwtHandler.GetClaims(user);
+            var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            return new LoginResponseDto { IsAuthSuccessful = true, Token = token };
+
+        }
+
         public async Task<LoginResponseDto> Login(LoginUserDto userDto)
         {
             var user = await _userManager.FindByNameAsync(userDto.UserName);

@@ -1,5 +1,6 @@
+import { TEXT_COLUMN_OPTIONS } from '@angular/cdk/table';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginResponseDto } from 'src/app/Interfaces/loginResponseDto';
@@ -11,7 +12,7 @@ import { UserService } from 'src/app/Services/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginForm: FormGroup;
   errorMessage: string = '';
   showError: boolean = false;
@@ -21,6 +22,9 @@ export class LoginComponent {
       username: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required])
     })
+  }
+  ngOnInit(): void {
+    this._userService.signInWithGoogle()
   }
 
 
@@ -52,5 +56,33 @@ export class LoginComponent {
       this.errorMessage = err.message;
       this.showError = true;
     }})
+  }
+
+  externalLogin = () => {
+    this.showError = false;
+    this._userService.signInWithGoogle();
+
+    this._userService.extAuthChanged.subscribe(user => {
+      const externalAuth = {
+        provider: user.provider,
+        idToken: user.idToken
+      }
+
+      this.validateExternalAuth(externalAuth);
+    })
+  }
+
+  private validateExternalAuth(externalAuth: object) {
+    this._userService.externalLogin(externalAuth)
+      .subscribe({
+        next: (res) => {
+            localStorage.setItem("token", res.token);
+            this._userService.sendAuthStateChangeNotification(res.isAuthSuccessful);
+      },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.message;
+          this.showError = true;
+        }
+      });
   }
 }

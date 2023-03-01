@@ -12,5 +12,6 @@ namespace Application.Interfaces
     {
         public Task<IdentityResult> Register(RegistrationUserDto user);
         public Task<LoginResponseDto> Login(LoginUserDto user);
+        public Task<LoginResponseDto> GoogleLogin(GoogleLoginDto googleLoginDto);
     }
 }

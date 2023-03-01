@@ -34,6 +34,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgChartsModule, NgChartsConfiguration } from 'ng2-charts'
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -80,7 +81,8 @@ export function tokenGetter() {
     MatSliderModule,
     NgxSliderModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    SocialLoginModule
   ],
   providers: [
     {
@@ -90,6 +92,21 @@ export function tokenGetter() {
     },
     {
       provide: NgChartsConfiguration, useValue: { generateColors: false }
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('110994160132-7au20bb874bup7tng7jkdi9rk8do7g52.apps.googleusercontent.com')
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig
     },
     MatDatepickerModule
   ],

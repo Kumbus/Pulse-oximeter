@@ -19,5 +19,12 @@ namespace Domain.Exceptions
             {
             }
         }
+
+        public sealed class InvalidGoogleCredentialsException : NotAuthorizedException
+        {
+            public InvalidGoogleCredentialsException() : base("Invalid google credentials")
+            {
+            }
+        }
     }
 }
